@@ -7,7 +7,7 @@ const cors = require("cors");
 const multer  = require('multer');
 const aws = require('aws-sdk');
 const multerS3 = require('multer-s3');
-const uri = process.env.MONGODB_URI || 'mongodb+srv://default:1234@cluster0-nasw8.mongodb.net/veronica?retryWrites=true&w=majority';
+const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
 
 app.use(cors());
