@@ -36,7 +36,7 @@ app.post("/register", async (req, res, next) => {
     const find = await User.findOne({ email: req.body.email });
     if(!find){
       const user = await User.create({ name: req.body.name, gender: req.body.gender, age: req.body.age,  email: req.body.email, password: req.body.password, phone: req.body.phone });
-      const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY || 'secret key');
+      const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
       res.json({ token });
     } else {
       res.json({ error: "El usuario ya esta registrado!" });
@@ -55,7 +55,7 @@ app.post("/login", async (req, res, next) => {
   try {
     const user = await User.authenticate(req.body.email, req.body.password);
     if (user) {
-      const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY || 'secret key');
+      const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
       res.json({ token, user });
     } else {
       res.status(401).json({ error: "Email o password invalido" });
@@ -70,7 +70,7 @@ const requireUser = async (req, res, next) => {
   const token = req.get("Authorization");
   if (token) {
     try {
-      const decoded = await jwt.verify(token, process.env.SECRET_KEY || 'secret key');
+      const decoded = await jwt.verify(token, process.env.SECRET_KEY);
       if (decoded.userId) {
         const user = await User.findOne({ _id: decoded.userId });
         if (user) {
@@ -187,5 +187,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Escuchando en el puerto ${port} ....`));
