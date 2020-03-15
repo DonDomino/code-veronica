@@ -1,3 +1,4 @@
+process.env.NODE_ENV !== 'production' ? require('dotenv').config() : null ;
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
@@ -8,7 +9,7 @@ const multer  = require('multer');
 const aws = require('aws-sdk');
 const multerS3 = require('multer-s3');
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 
 app.use(cors());
 app.use(express.json());
